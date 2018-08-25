@@ -4,13 +4,32 @@
 
 	<title></title>
 	<script type="text/javascript" src="paper-full.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.14/howler.js"></script>
 	<link rel="stylesheet" type="text/css" href="circles.css">
 	<!-- Define inlined PaperScript associate it with myCanvas -->
 	<script type="text/paperscript" canvas="myCanvas">
-		
-		for (var i = 0; i < 1000; i+=100){
-			for (var j = 0; j < 1000; j+=100){
-				var myCircle = new Path.Circle(new Point(i, j), 10).fillColor = 'purple';
+		var sound = new Howl({
+		  src: ['sounds/bubbles.mp3']
+		});
+
+		//sound.play();
+
+		var circles = [];
+
+		function onKeyDown(e) {
+			sound.play();
+			var maxPoint = new Point(view.size.width, view.size.height);
+			var ranPoint = Point.random();
+			var point = maxPoint * ranPoint;
+			var newCircle = new Path.Circle(point, 100);
+			newCircle.fillColor = "orange";
+			circles.push(newCircle);
+		}	
+
+		function onFrame(e){
+			for (var i = 0; i < circles.length; i++){
+				circles[i].fillColor.hue +=1;
+				circles[i].scale(0.9);
 			}
 		}
 	</script>
